@@ -1,6 +1,19 @@
 $( document ).ready(function() {
-  //retrieve text AJAX
-  //retrieve xml AJAX
+  var text, xml;
+  //retrieve text and XML with AJAX
+  $.get('/sources/ch08.txt', function(d){
+  	text = d;
+  }).success(function(){
+  	$.get('/sources/ch08.txt.xml', function(d){
+  		xml = d;
+  	}).fail(function(err){
+  		//add error handling here
+  		console.log(err);
+  	});
+  }).fail(function(err){
+  	//add error handling here
+  	console.log(err);
+  });
   //format xml - link xml to text 
   //add annotations - keep link between xml and text - part of span's ID?
   //format text to retain line breaks - replace \n with <br>
