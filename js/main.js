@@ -56,6 +56,10 @@ $(document).ready(function() {
       $('.text').append(text);
     }
 
+    var updateArr = function(ind){
+
+    };
+
     //*******HELPER FUNCTIONS Not to be Returned!!
 
     //get names of categories in xml
@@ -84,7 +88,13 @@ $(document).ready(function() {
     }
   }
 
+  //click handler to remove annotation
+  //because buttons are added after inital page load, have to do this on .text
+  $('.text').on('click', '.tooltip button', function() {
+    var id = this.id.toString().slice(1, this.id.length);
+//    annotation.updateArr(parseInt(id));
+  });
 
-  //add click handler to remove annotation -- remember the on function will be running after text is added dynamically!
+  //add function to keep track of how many annotations are in the text
   //save button refresh view and export xml -- push changes into an array?
 });
