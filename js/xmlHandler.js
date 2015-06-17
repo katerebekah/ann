@@ -15,4 +15,22 @@ function XmlDocument(xml) {
     this.xml.getElementsByTagName('document')[0].getElementsByTagName('span')[index].remove();
     return this.xml;
   };
+  this.getCategories = function(nodeArr){
+  	var categories = [];
+  	for (var i = 0; i < nodeArr.length; i++){
+  		if (categories.indexOf(this.getNodeCategory(nodeArr[i])) === -1) {
+  			categories.push(this.getNodeCategory(nodeArr[i]));
+  		}
+  	}
+  	return categories;
+  }
+  this.getCategoryCount = function(nodeArr, category){
+  	var counter = 0
+  	for (var i = 0; i < nodeArr.length; i++) {
+  		if (this.getNodeCategory(nodeArr[i]) === category){
+  			counter++;
+  		}
+  	}
+  	return counter;
+  };
 }

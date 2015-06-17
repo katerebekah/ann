@@ -29,6 +29,14 @@ $(document).ready(function() {
     //annotate text and append it to DOM
     $('.text').append(addAnnotationsToString(xmlArr, xmlDoc));
 
+    //add category count to html
+    var categories = xmlDoc.getCategories(xmlArr);
+    for (var i = 0; i < categories.length; i++){
+      var count = xmlDoc.getCategoryCount(xmlArr, categories[i]);
+      console.log(count)
+      $('#'+categories[i]).html(count);
+    }
+
     //click handler to remove annotation
     //because buttons are added after inital page load, have to do this on .text
     $('.text').on('click', '.removeButton', function() {
@@ -39,7 +47,7 @@ $(document).ready(function() {
     //click handler to edit annotation
     $('.text').on('click', '.editButton', function(){
       var id = $(this).parent().attr('id').toString().slice(1, $(this).parent().attr('id').length);
-      
+
 
     });
 
