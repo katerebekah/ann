@@ -17,18 +17,21 @@ $(document).ready(function() {
   var annotation = (function(text, xml) {
     //format xml into an array for ease of use
     var formatXMLArr = function(xml) {
-      console.log($('span', xml))
       return $('span', xml);
     }
 
+    //format text to retain line breaks
+    var formatText = function(txt) {
+      return text.replace(/\n/g, '<br>');
+    }
     //return functionalities
     return {
       formatXMLArr: formatXMLArr,
+      formatText: formatText,
     }
   })();
 
   //add annotations - keep link between xml and text - part of span's ID?
-  //format text to retain line breaks - replace \n with <br>
   //add click handler to remove annotation -- remember the on function will be running after text is added dynamically!
   //save button refresh view and export xml --push changes into an array?
 });
