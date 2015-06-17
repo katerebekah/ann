@@ -10,8 +10,24 @@
     float: right;
 }
 /*Make tooltip appear below the text*/
+
 .tooltip {}
+
+/*add space for highlighting*/
+span {
+    border-radius: 3px;
+    padding: 2px;
+}
+
 /*Add distiguishing colors to each category*/
-.person {}
-.location {}
-.organization {}
+.person {
+    background-color: #ffa;
+}
+
+.location {
+    background-color: #faf;
+}
+
+.organization {
+    background-color: #aff;
+}
