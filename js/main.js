@@ -1,4 +1,4 @@
-$(document).ready(function() {
+//$(document).ready(function() {
   var text, xml;
   //retrieve text and XML with AJAX
   $.get('/sources/ch08.txt', function(d) {
@@ -32,6 +32,7 @@ $(document).ready(function() {
     var addAnnotations = function(xmlArr) {
       //start loop at the end 
       //adds formatting text without messing up the start/end count of the rest of the annotations
+      var annotatedText = text;
       for (var i = xmlArr.length - 1; i > -1; i--) {
 
         //find category for class name
@@ -42,12 +43,12 @@ $(document).ready(function() {
         var end = findCount(xmlArr[i], "END") + 1;
 
         //adds necessary formatting necessary to style and interact with text
-        var insertText = "<span class='" + category.toLowerCase() + "'>" + text.slice(start, end) + "<div class='tooltip '>" + category + "<button id='i" + i + "'>Remove</button></div></span>"
+        var insertText = "<span class='" + category.toLowerCase() + "'>" + annotatedText.slice(start, end) + "<div class='tooltip '>" + category + "<button id='i" + i + "'>Remove</button></div></span>"
 
         //adds formatting, updates string so it can be appended to DOM
-        text = text.substring(0, start) + insertText + text.substring((start + (end - start)), text.length + end + insertText.length);
+        annotatedText = annotatedText.substring(0, start) + insertText + annotatedText.substring((start + (end - start)), annotatedText.length + end + insertText.length);
       }
-      return text
+      return annotatedText
     }
 
     //format text to retain line breaks, append to DOM
@@ -56,8 +57,13 @@ $(document).ready(function() {
       $('.text').append(text);
     }
 
-    var updateArr = function(ind){
-
+    var updateArr = function(index) {
+      xmlArr.splice(index, 1);
+      // removeText();
+      // var replacementText = addAnnotations(xmlArr);
+      // formatText(replacementText);
+      //show updated XML
+      //update counters
     };
 
     //*******HELPER FUNCTIONS Not to be Returned!!
@@ -72,6 +78,11 @@ $(document).ready(function() {
       return parseInt(ann.lastElementChild.lastElementChild.getAttribute(str));
     }
 
+    function removeText() {
+      $('.text').empty();
+      return;
+    }
+
     //*******END of Helper Functions!!
 
 
@@ -84,6 +95,7 @@ $(document).ready(function() {
     return {
       formatXMLArr: formatXMLArr,
       addAnnotations: addAnnotations,
+      updateArr: updateArr,
       formatText: formatText
     }
   }
@@ -92,9 +104,9 @@ $(document).ready(function() {
   //because buttons are added after inital page load, have to do this on .text
   $('.text').on('click', '.tooltip button', function() {
     var id = this.id.toString().slice(1, this.id.length);
-//    annotation.updateArr(parseInt(id));
+    annotation.updateArr(parseInt(id));
   });
 
   //add function to keep track of how many annotations are in the text
   //save button refresh view and export xml -- push changes into an array?
-});
+//});
