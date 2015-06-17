@@ -1,4 +1,4 @@
-function xmlDocument(xml){
+function XmlDocument(xml){
 	this.xml = xml;
 	this.getXMLNodeArr = function(){
       return $('span', xml);
