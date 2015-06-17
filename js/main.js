@@ -4,48 +4,58 @@ $(document).ready(function() {
   $.get('/sources/ch08.txt', function(d) {
     text = d;
   }).success(function() {
+    
     $.get('/sources/ch08.txt.xml', function(d) {
       xml = d;
-    }).fail(function(err) {
+    }).success(function() {
+      //invoke annotation function
+    })
+    .fail(function(err) {
       //add error handling here
       console.log(err);
     });
+
   }).fail(function(err) {
     //add error handling here
     console.log(err);
   });
-  var annotation = (function(text, xml) {
+
+  //parent function to handle processing raw materials and adding annotations
+  var annotation = function() {
     //format xml into an array for ease of use
     var formatXMLArr = function(xml) {
       return $('span', xml);
     }
 
-    //get names of categories in xml
-    function findCategories (arr){
-      var categoryArr = [];
-      for (var i= 0; i < arr.length; i++){
-        var cat = arr[i].getAttribute('category');
-        if (categoryArr.indexOf(cat) === -1) {
-          categoryArr.push(cat);
-        }
-      }
-      return categoryArr;
+    //format text to retain line breaks, append to DOM
+    var formatText = function(text) {
+      console.log(text);
+      text.replace(/\n/g, '<br>');
+      $('.text').append(text);
     }
 
-    //format text to retain line breaks
-    var formatText = function(txt) {
-      return text.replace(/\n/g, '<br>');
+    //*******HELPER FUNCTIONS Not to be Returned!!
+
+    //get names of categories in xml
+    function findCategory(ann) {
+      return ann.getAttribute('category');
     }
+
+    //finds start and end count for annotations
+    function findCount(ann, str){
+      return parseInt(ann.lastElementChild.lastElementChild.getAttribute(str));
+    }
+
+    //*******END of Helper Functions!!
 
     //return functionalities
     return {
       formatXMLArr: formatXMLArr,
       formatText: formatText
     }
-  })();
+  }
 
 
-  //add annotations - keep link between xml and text - part of span's ID?
   //add click handler to remove annotation -- remember the on function will be running after text is added dynamically!
   //save button refresh view and export xml --push changes into an array?
 });
