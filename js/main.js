@@ -20,16 +20,30 @@ $(document).ready(function() {
       return $('span', xml);
     }
 
+    //get names of categories in xml
+    function findCategories (arr){
+      var categoryArr = [];
+      for (var i= 0; i < arr.length; i++){
+        var cat = arr[i].getAttribute('category');
+        if (categoryArr.indexOf(cat) === -1) {
+          categoryArr.push(cat);
+        }
+      }
+      return categoryArr;
+    }
+
     //format text to retain line breaks
     var formatText = function(txt) {
       return text.replace(/\n/g, '<br>');
     }
+
     //return functionalities
     return {
       formatXMLArr: formatXMLArr,
-      formatText: formatText,
+      formatText: formatText
     }
   })();
+
 
   //add annotations - keep link between xml and text - part of span's ID?
   //add click handler to remove annotation -- remember the on function will be running after text is added dynamically!
