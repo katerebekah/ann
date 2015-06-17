@@ -10,7 +10,7 @@ function xmlDocument(xml){
     return parseInt(node.lastElementChild.lastElementChild.getAttribute(str));
   };
   this.removeNode = function(index){
-  	this.xml.getElementsByTagName('document')[0].remove(this.xml.getElementsByTagName('document')[0].getElementsByTagName('span')[index]);
-  	return;
+  	this.xml.getElementsByTagName('document')[0].getElementsByTagName('span')[index].remove();
+  	return this.xml;
   }
 }

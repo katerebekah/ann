@@ -68,10 +68,9 @@
   //because buttons are added after inital page load, have to do this on .text
   $('.text').on('click', '.tooltip button', function() {
     var id = this.id.toString().slice(1, this.id.length);
-    xmlDoc.removeNode(parseInt(id));
-    removeText();
-    annotatedText = text;
+    xmlDoc = new xmlDocument(xmlDoc.removeNode(parseInt(id)));
     xmlArr = xmlDoc.getXMLNodeArr()
+    removeText();
     formatText(addAnnotations(xmlArr));
   });
 
