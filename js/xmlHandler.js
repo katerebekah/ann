@@ -15,6 +15,10 @@ function XmlDocument(xml) {
     this.xml.getElementsByTagName('document')[0].getElementsByTagName('span')[index].remove();
     return this.xml;
   };
+  this.editNode = function(index, newCat) {
+    this.xml.getElementsByTagName('document')[0].getElementsByTagName('span')[index].setAttribute('category', newCat);
+    return this.xml;
+  };
   this.getCategories = function(nodeArr){
   	var categories = [];
   	for (var i = 0; i < nodeArr.length; i++){

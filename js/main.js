@@ -9,6 +9,7 @@ $(document).ready(function() {
     $.get('/sources/ch08.txt.xml', function(d) {
       xml = d;
     }).success(function() {
+      //call annotate
       annotate(xml, text);
     }).fail(function(err) {
       //add error handling here
@@ -31,28 +32,31 @@ $(document).ready(function() {
 
     //add category count to html
     var categories = xmlDoc.getCategories(xmlArr);
-    for (var i = 0; i < categories.length; i++){
+    for (var i = 0; i < categories.length; i++) {
       var count = xmlDoc.getCategoryCount(xmlArr, categories[i]);
-      console.log(count)
-      $('#'+categories[i]).html(count);
+      $('#' + categories[i]).html(count);
     }
-
-    //click handler to remove annotation
+    //add xml to html 
+    
     //because buttons are added after inital page load, have to do this on .text
-    $('.text').on('click', '.removeButton', function() {
+    $('.text').on('click', '.removeButton', function(e) {
+      //prevents multiple firings on click
+      $('.text').unbind();
       var id = $(this).parent().attr('id').toString().slice(1, $(this).parent().attr('id').length);
       xml = xmlDoc.removeNode(parseInt(id));
       annotate(xml, text);
     });
+
     //click handler to edit annotation
-    $('.text').on('click', '.editButton', function(){
+    $('.text').on('change', '.edit', function(e) {
+      var newCat = e.target.selectedOptions[0].value;
+      $('.text').unbind();
+      //prevents multiple firings on click
       var id = $(this).parent().attr('id').toString().slice(1, $(this).parent().attr('id').length);
-
-
+      xml = xmlDoc.editNode(parseInt(id), newCat);
+      annotate(xml, text);
     });
-
-    //add function to keep track of how many annotations are in the text
-  }
+  };
 
   function addAnnotationsToString(xmlArr, xmlDoc) {
     var annotatedText = text;
@@ -64,8 +68,10 @@ $(document).ready(function() {
       //find start, end counts to slice text
       var start = xmlDoc.getNodeCharPosition(xmlArr[i], 'START');
       var end = xmlDoc.getNodeCharPosition(xmlArr[i], 'END') + 1;
+      var editButton = "<label>Edit Category:</label><select class='edit'><option>Select An Option</option><option value='PERSON'>PERSON</option><option value='LOCATION'>LOCATION</option><option value='ORGANIZATION'>ORGANIZATION</option></select>";
+      var deleteButton = "<button class='removeButton'>Remove</button>";
       //adds necessary formatting necessary to style and interact with text
-      var insertText = "<span class='" + category.toLowerCase() + "'>" + annotatedText.slice(start, end) + "<div class='tooltip' id='i" + i + "'>" + category + "<button class='removeButton'>Remove</button></div></span>";
+      var insertText = "<span class='" + category.toLowerCase() + "'>" + annotatedText.slice(start, end) + "<div class='tooltip' id='i" + i + "'>" + category + deleteButton + editButton + "</div></span>";
       //adds formatting, updates string so it can be appended to DOM
       annotatedText = annotatedText.substring(0, start) + insertText + annotatedText.substring((start + (end - start)), annotatedText.length + end + insertText.length);
     }
