@@ -27,6 +27,28 @@ $(document).ready(function() {
       return $('span', xml);
     }
 
+    //add annotations - keep link between xml and text with an ID
+    var addAnnotations = function(xmlArr) {
+      //start loop at the end 
+      //adds formatting text without messing up the start/end count of the rest of the annotations
+      for (var i = xmlArr.length - 1; i > -1; i--) {
+        
+        //find category for class name
+        var category = findCategory(xmlArr[i]);
+        
+        //find start, end counts to slice text
+        var start = findCount(xmlArr[i], "START");
+        var end = findCount(xmlArr[i], "END") + 1;
+        
+        //adds necessary formatting necessary to style and interact with text
+        var insertText = "<span class='" + category.toLowerCase() + "'>" + text.slice(start, end) + "<div class='tooltip '>" + category + "<button id='i" + i + "'>Remove</button></div></span>"
+        
+        //adds formatting, updates string so it can be appended to DOM
+        text = text.substring(0, start) + insertText + text.substring((start + (end - start)), text.length + end + insertText.length);
+      }
+      return text
+    }
+
     //format text to retain line breaks, append to DOM
     var formatText = function(text) {
       console.log(text);
