@@ -3,22 +3,22 @@
 $(document).ready(function() {
   var text, xml;
   //retrieve text and XML with AJAX
-  $.get('/sources/ch08.txt', function(d) {
-    text = d;
-  }).success(function() {
-    $.get('/sources/ch08.txt.xml', function(d) {
-      xml = d;
-    }).success(function() {
-      //call annotate
-      annotate(xml, text);
+  $.get('/sources/ch08.txt')
+    .success(function(d) {
+      text = d;
+      $.get('/sources/ch08.txt.xml', 'xml')
+        .success(function(d) {
+          xml = d;
+          //call annotate
+          annotate(xml, text);
+        }).fail(function(err) {
+          //add error handling here
+          console.log(err);
+        });
     }).fail(function(err) {
       //add error handling here
       console.log(err);
     });
-  }).fail(function(err) {
-    //add error handling here
-    console.log(err);
-  });
 
   function annotate(xml, text) {
     //use xmlHandler library to make new instance of xmlDocument
@@ -34,9 +34,8 @@ $(document).ready(function() {
     var categories = xmlDoc.getCategories(xmlArr);
     for (var i = 0; i < categories.length; i++) {
       var count = xmlDoc.getCategoryCount(xmlArr, categories[i]);
-      $('#' + categories[i]).html(count);
+      $('#' + categories[i]).html(categories[i] + ": " + count);
     }
-    //add xml to html 
 
     //because buttons are added after inital page load, have to do this on .text
     $('.text').on('click', '.removeButton', function(e) {

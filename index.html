@@ -7,26 +7,22 @@
     <title>Annotation Viewer</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/styles/default.min.css">
     <link rel="stylesheet" href="css/main.css">
 </head>
 
 <body>
+	<h1>Annotations</h1>
     <div class="text">
         <!-- Add formatted text here -->
     </div>
     <div class="dashboard">
-    		<!-- display the total count for each category -->
-    		<div class="catCounters">
-    			<h3>Totals:</h3>
-    				<ul>
-    					<li>Person: <span id="PERSON"></span></li>
-    					<li>Organization: <span id="ORGANIZATION"></span></li>
-    					<li>Location: <span id="LOCATION"></span></li>
-    				</ul>
-    		</div>
-        <button id="save">Save Your Changes</button>
-        <div class="export">
-            <!-- Make Edited XML Appear Here -->
+        <!-- display the total count for each category -->
+        <div class="catCounters">
+            <h3>Totals for Each Category</h3>
+            <h5 id="PERSON"></h5>
+            <h5 id="ORGANIZATION"></h5>
+            <h5 id="LOCATION"></h5>
         </div>
     </div>
     <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
