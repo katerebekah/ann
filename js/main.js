@@ -37,7 +37,7 @@ $(document).ready(function() {
       $('#' + categories[i]).html(count);
     }
     //add xml to html 
-    
+
     //because buttons are added after inital page load, have to do this on .text
     $('.text').on('click', '.removeButton', function(e) {
       //prevents multiple firings on click
@@ -56,6 +56,13 @@ $(document).ready(function() {
       xml = xmlDoc.editNode(parseInt(id), newCat);
       annotate(xml, text);
     });
+    $('span').mouseover(function(e) {
+      $(this).children()[0].style.display = "block";
+    });
+    $('span').mouseleave(function(e) {
+      $(this).children()[0].style.display = "none";
+    });
+
   };
 
   function addAnnotationsToString(xmlArr, xmlDoc) {
@@ -68,14 +75,15 @@ $(document).ready(function() {
       //find start, end counts to slice text
       var start = xmlDoc.getNodeCharPosition(xmlArr[i], 'START');
       var end = xmlDoc.getNodeCharPosition(xmlArr[i], 'END') + 1;
-      var editButton = "<label>Edit Category:</label><select class='edit'><option>Select An Option</option><option value='PERSON'>PERSON</option><option value='LOCATION'>LOCATION</option><option value='ORGANIZATION'>ORGANIZATION</option></select>";
+      var editButton = "<br><label>Edit Category:</label><select class='edit'><option>Select An Option</option><option value='PERSON'>PERSON</option><option value='LOCATION'>LOCATION</option><option value='ORGANIZATION'>ORGANIZATION</option></select>";
       var deleteButton = "<button class='removeButton'>Remove</button>";
       //adds necessary formatting necessary to style and interact with text
-      var insertText = "<span class='" + category.toLowerCase() + "'>" + annotatedText.slice(start, end) + "<div class='tooltip' id='i" + i + "'>" + category + deleteButton + editButton + "</div></span>";
+      var insertText = "<span class='" + category.toLowerCase() + "'>" + annotatedText.slice(start, end) + "<div class='tooltip' id='i" + i + "'><h4>Category: " + category + "</h4>" + editButton + deleteButton + "</div></span>";
       //adds formatting, updates string so it can be appended to DOM
       annotatedText = annotatedText.substring(0, start) + insertText + annotatedText.substring((start + (end - start)), annotatedText.length + end + insertText.length);
     }
     //replaces carriage returns with br tags
     return annotatedText.replace(/\n/g, '<br>');
   }
+
 });
