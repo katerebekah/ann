@@ -100,7 +100,7 @@ $(document).ready(function() {
       annotatedText = annotatedText.substring(0, start) + insertText + annotatedText.substring((start + (end - start)), annotatedText.length + end + insertText.length);
     }
     //replaces carriage returns with br tags
-    return annotatedText.replace(/\n/g, '<br>');
+    return annotatedText;
   }
 
 });
